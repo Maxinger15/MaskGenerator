@@ -1,0 +1,2 @@
+# MaskGenerator
+MaskGenerator for Hashcat
