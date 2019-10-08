@@ -12,15 +12,17 @@ def sortSecond(val):
 
 def main(argv):
     try:
-        opts, args = getopt.getopt(argv, "o:l:", ['increment-min'])
-    except getopt.GetoptError:
+        opts, args = getopt.getopt(argv, "mo:l:")
+    except getopt.GetoptError as err:
         print("error in argument parsing. Available Arguments: -o -l --increment-min")
+        print(err)
         sys.exit(2)
 
     length = 0
     path = "generated.txt"
     minSize = 1
     for opt, arg in opts:
+        print(opt+" / "+arg)
         if opt == '-o':
             path = arg
         elif opt == '-l':
@@ -28,7 +30,7 @@ def main(argv):
                 length = int(arg)
             else:
                 print("Given length is lower than 0. The script is using 1 instead")
-        elif opt == '--increment-min':
+        elif opt == '-m':
             if int(arg) > 0:
                 minSize = int(arg)
             else:
@@ -44,8 +46,16 @@ def main(argv):
     priority["?s"] = 33
     priority["?a"] = priority["?l"] + priority["?u"] + priority["?d"] + priority["?s"]
     priority["?b"] = 255
-    erg = list(itertools.combinations_with_replacement(possibleValues, length))
-    linePriority = []
+    erg = []
+    print(str(range(minSize, length+1)))
+    for i in range(minSize, length+1):
+        if erg == []:
+            erg = list(itertools.combinations_with_replacement(possibleValues, i))
+        else:
+            zerg = list(itertools.combinations_with_replacement(possibleValues, i))
+            erg = erg + zerg
+            print(str(len(zerg)))
+
     combinedErg = []
     for item in erg:
         prioSum = 1
@@ -62,4 +72,5 @@ def main(argv):
 
 
 if __name__ == "__main__":
-   main(sys.argv[1:])
+    print(str(sys.argv))
+    main(sys.argv[1:])
